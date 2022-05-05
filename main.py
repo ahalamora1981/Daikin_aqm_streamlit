@@ -13,6 +13,7 @@ st.set_page_config(layout='wide')
 rc = {'font.sans-serif': 'Consolas',
     'axes.unicode_minus': False}
 sns.set(context='notebook', style='ticks', rc=rc)
+sns.set_theme(style="whitegrid")
 
 @st.cache
 def create_df_pace(scores):
