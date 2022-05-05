@@ -59,6 +59,60 @@ class AQM():
             })
 
         return result
+        
+
+    def closing(self, last_n, n_words_to_pass):
+
+        path = os.path.join(os.getcwd(), self.file_path)
+        file_path_list = [path + "/" + file for file in os.listdir(path) if file[-4:] == "json"]
+
+        result = []
+
+        for file_path in file_path_list[:]:
+
+            with open(file_path, encoding="utf-8") as file:
+                data = json.load(file)
+
+            words = data["transcript_detailed"]["words"]
+
+            closing_words = "感谢 / 您 / 大金 / 支持 / 关注 / 祝您 / 生活 / 愉快 / 再见"
+            closing_words = closing_words.split("/")
+            closing_words = [word.strip() for word in closing_words]
+            closing_words = set(closing_words)
+
+            # 开场白的适用词数（前N个词）        
+            last_n_words = [word["w"] for word in words if word["sp"]=="Agent"][-last_n:]
+
+            # 判断命中了几个开场白词语
+            n_words_said = 0
+            words_said = ""
+            gw = closing_words.copy()
+            for word in last_n_words:
+                if word in gw:
+                    n_words_said += 1
+                    gw.remove(word)
+                    words_said += ", " + word if words_said else word
+
+            data["aqm"] = {}
+            data["aqm"]["closing"] = {}
+            data["aqm"]["closing"]["words_said"] = words_said
+            data["aqm"]["closing"]["n_words_said"] = n_words_said
+
+            # 开场白合格需要多少个词语
+            # n_words_to_pass
+
+            # 打分
+            if n_words_said >= n_words_to_pass:
+                data["aqm"]["closing"]["score"] = 1
+            else:
+                data["aqm"]["closing"]["score"] = 0
+
+            result.append({
+                "contact_id": data["metadata"]["ContactID"],
+                "aqm": data["aqm"]
+            })
+
+        return result
 
 
 if __name__=="__main__":

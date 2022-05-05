@@ -10,9 +10,9 @@ from get_file import get_file
 st.set_page_config(layout='wide')
 
 # Set Seaborn/Matplotlib Font (disable due to not working on Streamlit cloud)
-# rc = {'font.sans-serif': 'SimSun',
-#     'axes.unicode_minus': False}
-# sns.set(context='notebook', style='ticks', rc=rc)
+rc = {'font.sans-serif': 'Consolas',
+    'axes.unicode_minus': False}
+sns.set(context='notebook', style='ticks', rc=rc)
 
 st.header("大金空调 AQM Demo")
 
@@ -23,9 +23,7 @@ col1, col2 = st.columns([7, 3])
 with st.sidebar:
     aqm_type = st.selectbox("质检点类型", ["开始语", "结束语", "语速"], index=0)
     uploaded_file = st.file_uploader("上传ZIP压缩包", type="zip")
-    start_n = st.slider("开始语适用范围（词数）", 0, 40, 20)
-    n_words_to_pass = st.slider("合格所需词数", 0, 10, 3)
-
+    
     # When file is upload, do greeting scoring and show the result
     if uploaded_file is not None:
 
@@ -34,18 +32,27 @@ with st.sidebar:
 
         aqm = AQM(file_path)
 
-        greeting_scores = aqm.greeting(start_n, n_words_to_pass)
+        if aqm_type == "开始语":
+            start_n = st.slider("开始语适用范围（词数）", 0, 40, 20)
+            n_words_to_pass = st.slider("合格所需词数", 0, 10, 3)
+            greeting_scores = aqm.greeting(start_n, n_words_to_pass)
+            aqm_type_en = "greeting"
+        elif aqm_type == "结束语":
+            last_n = st.slider("结束语适用范围（词数）", 0, 40, 20)
+            n_words_to_pass = st.slider("合格所需词数", 0, 10, 3)
+            greeting_scores = aqm.closing(last_n, n_words_to_pass)
+            aqm_type_en = "closing"
 
         df = pd.DataFrame(columns=["通话ID", "是否合格", "命中词语", "命中词语数量"])
 
         for index, item in enumerate(greeting_scores):
             df.loc[index, "通话ID"] = item["contact_id"]
-            if item["aqm"]["greeting"]["score"]:
+            if item["aqm"][aqm_type_en]["score"]:
                 df.loc[index, "是否合格"] = "合格"
             else:
                 df.loc[index, "是否合格"] = "不合格"
-            df.loc[index, "命中词语"] = item["aqm"]["greeting"]["words_said"]
-            df.loc[index, "命中词语数量"] = item["aqm"]["greeting"]["n_words_said"]
+            df.loc[index, "命中词语"] = item["aqm"][aqm_type_en]["words_said"]
+            df.loc[index, "命中词语数量"] = item["aqm"][aqm_type_en]["n_words_said"]
 
         n_pass = (df["是否合格"]=="合格").sum()
         n_fail = (df["是否合格"]=="不合格").sum()
@@ -53,7 +60,7 @@ with st.sidebar:
 
         # Show greeting scoring table
         col1.subheader("打分结果：" + aqm_type)
-        col1.dataframe(df, 850, 600)
+        col1.dataframe(df, 800, 600)
 
         # Generate pass/fail table dataframe and show it
         col2.subheader("合格率统计：" + aqm_type)
