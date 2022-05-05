@@ -9,10 +9,10 @@ from get_file import get_file
 
 st.set_page_config(layout='wide')
 
-
-rc = {'font.sans-serif': 'SimSun',
-    'axes.unicode_minus': False}
-sns.set(context='notebook', style='ticks', rc=rc)
+# Set Seaborn/Matplotlib Font (disable due to not working on Streamlit cloud)
+# rc = {'font.sans-serif': 'SimSun',
+#     'axes.unicode_minus': False}
+# sns.set(context='notebook', style='ticks', rc=rc)
 
 st.header("大金空调 AQM Demo")
 
@@ -78,6 +78,6 @@ with st.sidebar:
         # Generate countplot for "命中词语数量"
         fig = plt.figure(figsize=(5, 3))
         sns.countplot(x = "命中词语数量", data = df, palette="Set3")
-        plt.xlabel("命中词语数量")
+        plt.xlabel("Count of Words Said")
         plt.ylabel("")
         col2.pyplot(fig)
