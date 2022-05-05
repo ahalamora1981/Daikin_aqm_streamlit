@@ -11,7 +11,7 @@ st.set_page_config(layout='wide')
 st.header("大金空调 AQM Demo")
 
 # Layout into 2 columns with width ratio of "2:1"
-col1, col2 = st.columns([7, 3])
+col1, col2 = st.columns([2, 1])
 
 # Layout sidebar
 with st.sidebar:
@@ -46,7 +46,7 @@ with st.sidebar:
         n_total = n_pass + n_fail
 
         # Show greeting scoring table
-        col1.dataframe(df, 850, 600)
+        col1.dataframe(df, 950, 600)
 
         col2.write("#### 合格率统计")
         # Generate pass/fail table dataframe and show it
