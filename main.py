@@ -52,7 +52,7 @@ def create_df_greeting_closing(scores):
     return df
 
 
-st.header("大金空调 AQM Demo")
+st.header("大金空调 AQM demo")
 
 # Layout into 2 columns with width ratio of "2:1"
 col1, col2 = st.columns([7, 3])
