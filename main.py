@@ -63,7 +63,7 @@ with st.sidebar:
         df_pass_chart = alt.Chart(df_pass, width=300, height=450).mark_bar().encode(
             x='合格通话统计',
             y='数量',
-            color=alt.Color("合格通话统计", scale=alt.Scale(domain=["合格", "不合格"],
+            color=alt.Color("合格通话统计：" + aqm_type, scale=alt.Scale(domain=["合格", "不合格"],
                                                             range=['green', 'red']))
         )
 
