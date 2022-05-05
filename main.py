@@ -59,6 +59,8 @@ col1, col2 = st.columns([7, 3])
 
 # Layout sidebar
 with st.sidebar:
+    st.image("daikin_logo.png")
+    st.write("**Version 0.1.0**  -- Developed by Johnny Tao")
     aqm_type = st.selectbox("质检点类型", ["开始语", "结束语", "语速"], index=0)
     uploaded_file = st.file_uploader("上传ZIP压缩包", type="zip")
     
