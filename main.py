@@ -46,10 +46,10 @@ with st.sidebar:
         n_total = n_pass + n_fail
 
         # Show greeting scoring table
-        col1.subheader("质检点：" + aqm_type)
+        col1.subheader("打分结果：" + aqm_type)
         col1.dataframe(df, 850, 600)
 
-        col2.subheader("合格率统计")
+        col2.subheader("合格率统计：" + aqm_type)
         # Generate pass/fail table dataframe and show it
         df_pass_table = pd.DataFrame([[n_pass, n_fail, n_total]], columns=["合格", "不合格", "通话总数"], index=["合格率："])
         col2.dataframe(df_pass_table, width=300)
@@ -60,12 +60,11 @@ with st.sidebar:
             '数量': [n_pass, n_fail]
         })
 
-        df_pass_chartl_label = "合格通话统计：" + aqm_type
         df_pass_chart = alt.Chart(df_pass, width=300, height=450).mark_bar().encode(
             x='合格通话统计',
             y='数量',
-            color=alt.Color(df_pass_chartl_label, scale=alt.Scale(domain=["合格", "不合格"],
+            color=alt.Color("合格通话统计", scale=alt.Scale(domain=["合格", "不合格"],
                                                             range=['green', 'red']))
         )
-
+        col2.markdown("---")
         col2.altair_chart(df_pass_chart, use_container_width=False)
