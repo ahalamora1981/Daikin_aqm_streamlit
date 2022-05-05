@@ -24,7 +24,7 @@ with st.sidebar:
     aqm_type = st.selectbox("质检点类型", ["开始语", "结束语", "语速"], index=0)
     uploaded_file = st.file_uploader("上传ZIP压缩包", type="zip")
     start_n = st.slider("开始语适用范围（词数）", 0, 40, 20)
-    n_words_to_pass = st.slider("合格所需词数", 0, 10, 5)
+    n_words_to_pass = st.slider("合格所需词数", 0, 10, 3)
 
     # When file is upload, do greeting scoring and show the result
     if uploaded_file is not None:
