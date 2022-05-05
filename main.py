@@ -11,7 +11,7 @@ st.set_page_config(layout='wide')
 st.header("大金空调 AQM Demo")
 
 # Layout into 2 columns with width ratio of "2:1"
-col1, col2 = st.columns([5, 2])
+col1, col2 = st.columns([7, 3])
 
 # Layout sidebar
 with st.sidebar:
