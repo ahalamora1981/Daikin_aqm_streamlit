@@ -10,7 +10,7 @@ from get_file import get_file
 st.set_page_config(layout='wide')
 
 
-rc = {'font.sans-serif': 'SimHei',
+rc = {'font.sans-serif': 'DengXian',
     'axes.unicode_minus': False}
 sns.set(context='notebook', style='ticks', rc=rc)
 
@@ -77,6 +77,7 @@ with st.sidebar:
 
         # Generate countplot for "命中词语数量"
         fig = plt.figure(figsize=(4, 2))
-        plt.ylabel("统计数量")
         sns.countplot(x = "命中词语数量", data = df)
+        plt.xlabel("命中词语数量")
+        plt.ylabel("")
         col2.pyplot(fig)
