@@ -46,9 +46,10 @@ with st.sidebar:
         n_total = n_pass + n_fail
 
         # Show greeting scoring table
+        col1.subheader("质检点：" + aqm_type)
         col1.dataframe(df, 850, 600)
 
-        col2.write("#### 合格率统计")
+        col2.subheader("合格率统计")
         # Generate pass/fail table dataframe and show it
         df_pass_table = pd.DataFrame([[n_pass, n_fail, n_total]], columns=["合格", "不合格", "通话总数"], index=["合格率："])
         col2.dataframe(df_pass_table, width=300)
