@@ -67,17 +67,17 @@ with st.sidebar:
             '合格通话统计': ["合格", "不合格"],
             '数量': [n_pass, n_fail]
         })
-        df_pass_chart = alt.Chart(df_pass, width=300, height=250).mark_bar().encode(
-            x='合格通话统计',
-            y='数量',
+        df_pass_chart = alt.Chart(df_pass, width=300, height=150).mark_bar().encode(
+            y='合格通话统计',
+            x='数量',
             color=alt.Color("合格通话统计", scale=alt.Scale(domain=["合格", "不合格"],
                                                             range=['green', 'red']))
         )
         col2.altair_chart(df_pass_chart, use_container_width=False)
 
         # Generate countplot for "命中词语数量"
-        fig = plt.figure(figsize=(4, 2))
-        sns.countplot(x = "命中词语数量", data = df)
+        fig = plt.figure(figsize=(5, 3))
+        sns.countplot(x = "命中词语数量", data = df, palette="Set3")
         plt.xlabel("命中词语数量")
         plt.ylabel("")
         col2.pyplot(fig)
