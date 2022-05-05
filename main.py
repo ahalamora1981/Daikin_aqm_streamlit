@@ -1,12 +1,18 @@
 import streamlit as st
 import pandas as pd
 import altair as alt
-import zipfile as zf
+import matplotlib.pyplot as plt
+import seaborn as sns
 from aqm import AQM
 from get_file import get_file
 
 
 st.set_page_config(layout='wide')
+
+
+rc = {'font.sans-serif': 'SimHei',
+    'axes.unicode_minus': False}
+sns.set(context='notebook', style='ticks', rc=rc)
 
 st.header("大金空调 AQM Demo")
 
@@ -49,22 +55,28 @@ with st.sidebar:
         col1.subheader("打分结果：" + aqm_type)
         col1.dataframe(df, 850, 600)
 
-        col2.subheader("合格率统计：" + aqm_type)
         # Generate pass/fail table dataframe and show it
+        col2.subheader("合格率统计：" + aqm_type)
         df_pass_table = pd.DataFrame([[n_pass, n_fail, n_total]], columns=["合格", "不合格", "通话总数"], index=["合格率："])
         col2.dataframe(df_pass_table, width=300)
+
+        col2.markdown("---")
 
         # Generate pass/fail chart dataframe and show it
         df_pass = pd.DataFrame({
             '合格通话统计': ["合格", "不合格"],
             '数量': [n_pass, n_fail]
         })
-
-        df_pass_chart = alt.Chart(df_pass, width=300, height=450).mark_bar().encode(
+        df_pass_chart = alt.Chart(df_pass, width=300, height=250).mark_bar().encode(
             x='合格通话统计',
             y='数量',
             color=alt.Color("合格通话统计", scale=alt.Scale(domain=["合格", "不合格"],
                                                             range=['green', 'red']))
         )
-        col2.markdown("---")
         col2.altair_chart(df_pass_chart, use_container_width=False)
+
+        # Generate countplot for "命中词语数量"
+        fig = plt.figure(figsize=(4, 2))
+        plt.ylabel("统计数量")
+        sns.countplot(x = "命中词语数量", data = df)
+        col2.pyplot(fig)
