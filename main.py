@@ -46,7 +46,7 @@ with st.sidebar:
         n_total = n_pass + n_fail
 
         # Show greeting scoring table
-        col1.dataframe(df, 950, 600)
+        col1.dataframe(df, 850, 600)
 
         col2.write("#### 合格率统计")
         # Generate pass/fail table dataframe and show it
