@@ -10,7 +10,7 @@ from get_file import get_file
 st.set_page_config(layout='wide')
 
 
-rc = {'font.sans-serif': 'DengXian',
+rc = {'font.sans-serif': 'SimSun',
     'axes.unicode_minus': False}
 sns.set(context='notebook', style='ticks', rc=rc)
 
