@@ -13,7 +13,7 @@ st.set_page_config(layout='wide')
 rc = {'font.sans-serif': 'Consolas',
     'axes.unicode_minus': False}
 sns.set(context='notebook', style='ticks', rc=rc)
-sns.set_theme(style="darkgrid", font_scale=1.1)
+sns.set_theme(style="darkgrid", font_scale=1.5)
 
 @st.cache
 def create_df_pace(scores):
@@ -158,15 +158,15 @@ if uploaded_file is not None:
         col2.markdown("---")
 
         # Generate countplot for "命中词语数量"
-        fig = plt.figure(figsize=(5, 3))
+        fig = plt.figure(figsize=(10, 8))
 
         if aqm_type == "语速":
-            sns.histplot(x = "最大语速", data = df, palette="Set3")
+            sns.histplot(x = "最大语速", data = df, palette="deep")
             plt.xlabel("Count of Speaking Pace")
             plt.ylabel("")
             col2.pyplot(fig)
         else:
-            sns.countplot(x = "命中词语数量", data = df, palette="Set3")
+            sns.countplot(x = "命中词语数量", data = df, palette="deep")
             plt.xlabel("Count of Words Said")
             plt.ylabel("")
             col2.pyplot(fig)
@@ -202,4 +202,5 @@ if uploaded_file is not None:
         sns.barplot(data=df_mean.sort_values("Sentiment")[:10], ax=ax2, x="Counts", y="Extension", palette="mako")
         ax1.set_title("Average Sentiment per Employee (Bottom 10)")
         ax2.set_title("Call Counts per Employee (Sentiment Bottom 10)")
+        plt.tight_layout() 
         col2.pyplot(fig)
