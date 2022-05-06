@@ -3,4 +3,8 @@ numpy
 pandas
 matplotlib
 seaborn
+<<<<<<< HEAD
 pysenti
+=======
+streamlit
+>>>>>>> b938090ed5c64f9f208d37a5a4367b957d8fd2b8

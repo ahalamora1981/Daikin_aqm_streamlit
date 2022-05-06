@@ -69,7 +69,7 @@ def convert_df(df):
     return df.to_csv().encode("gbk")
 
 
-st.header("大金空调 AQM Demo")
+st.header("大金空调 AQM demo")
 
 # Layout into 2 columns with width ratio of "7:3"
 col1, col2 = st.columns([3, 2])
