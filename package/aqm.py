@@ -1,5 +1,10 @@
-import os, json
+import pysenti
+import numpy as np
 import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+import json
+import os
 
 class AQM():
 
@@ -169,6 +174,79 @@ class AQM():
 
         return result
             
+
+    def sentiment(self):
+
+        path = os.path.join(os.getcwd(), "calls")
+        files = os.listdir(path)
+
+        result = {
+        "counts": {},
+        "negative_calls": {},
+        "positive_calls": {},
+        "short_calls": {},
+        "all_calls": {}
+        }
+
+        num_total_calls = 0
+        num_negative_calls = 0
+        num_positive_calls = 0
+        num_short_calls = 0
+
+        for file in files:
+            with open(os.path.join("calls", file), "r", encoding="utf-8") as f:
+                data = json.load(f)
+            text = data["plainText"]
+            score = pysenti.classify(text)
+
+            num_total_calls += 1
+
+            text = text.replace(" ", "")
+            text = text.replace("\n", " ")
+
+            result["all_calls"][file[:-5]] = {
+                "metadata": {
+                    "extension": data["metadata"]["String_extension"]
+                },
+                "score": int(score["score"]),
+                "text": text
+            }
+            
+            if len(text) <= 10:
+                num_short_calls += 1
+                result["short_calls"][file[:-5]] = {
+                    "metadata": {
+                        "extension": data["metadata"]["String_extension"]
+                    },
+                    "score": int(score["score"]),
+                    "text": text
+                }
+            elif score["score"] >= 0:
+                num_positive_calls += 1
+                result["positive_calls"][file[:-5]] = {
+                    "metadata": {
+                        "extension": data["metadata"]["String_extension"]
+                    },
+                    "score": int(score["score"]),
+                    "text": text
+                }
+            else:
+                num_negative_calls += 1
+                result["negative_calls"][file[:-5]] = {
+                    "metadata": {
+                        "extension": data["metadata"]["String_extension"]
+                    },
+                    "score": int(score["score"]),
+                    "text": text
+                }
+
+        result["counts"]["num_total_calls"] = num_total_calls
+        result["counts"]["num_negative_calls"] = num_negative_calls
+        result["counts"]["num_positive_calls"] = num_positive_calls
+        result["counts"]["num_short_calls"] = num_short_calls
+
+        return result
+
 
 if __name__=="__main__":
     

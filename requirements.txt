@@ -1,4 +1,6 @@
+streamlit
+numpy
 pandas
-altair
 matplotlib
 seaborn
+pysenti

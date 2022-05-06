@@ -6,11 +6,11 @@ def get_file(uploaded_file):
     bytes_data = uploaded_file.getvalue()
 
     # Write the binary into zip file
-    with open(uploaded_file.name, "wb+") as file:
+    with open("./files/" + uploaded_file.name, "wb+") as file:
         file.write(bytes_data)
 
     # Unzip the zip file and save all files/folders in current folder
-    with zf.ZipFile("./" + uploaded_file.name) as file:
+    with zf.ZipFile("./files/" + uploaded_file.name) as file:
         file_path = file.namelist()[0].strip("/") 
         file.extractall()
 
